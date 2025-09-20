@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSD9.2</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Initial Magnet Input View -->
+    <div id="input-container">
+      <div class="messageBox">
+        <div class="fileUploadWrapper">
+          <label for="file" id="uploadButtonLabel">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 337 337"
+            >
+              <circle
+                stroke-width="20"
+                stroke="#6c6c6c"
+                fill="none"
+                r="158.5"
+                cy="168.5"
+                cx="168.5"
+              ></circle>
+              <path
+                stroke-linecap="round"
+                stroke-width="25"
+                stroke="#6c6c6c"
+                d="M167.759 79V259"
+              ></path>
+              <path
+                stroke-linecap="round"
+                stroke-width="25"
+                stroke="#6c6c6c"
+                d="M79 167.138H259"
+              ></path>
+            </svg>
+            <span class="tooltip">fetch</span>
+          </label>
+          <input type="file" id="file" name="file" accept=".torrent" />
+        </div>
+        <input
+          required=""
+          placeholder="Magnet..."
+          type="text"
+          id="messageInput"
+          autocomplete="off"
+        />
+        <button id="sendButton">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 664 663"
+          >
+            <path
+              fill="none"
+              d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
+            ></path>
+            <path
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="33.67"
+              stroke="#6c6c6c"
+              d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="loader" class="hidden">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Main Modal -->
+    <div id="main-modal" class="hidden">
+      <div class="modal-content">
+        <button id="restart-button">&#x21BB;</button> <!-- Restart/reload symbol -->
+        
+        <!-- View 1: File List -->
+        <div id="file-list-container">
+          <h2>Select a file to play</h2>
+          <ul id="file-list"></ul>
+        </div>
+
+        <!-- View 2: Player -->
+        <div id="player-container" class="hidden">
+          <div id="video-container">
+            <video id="video-player" controls>
+              <track kind="subtitles" id="subtitle-track" src="" srclang="en" label="English">
+            </video>
+                <canvas id="jassub-canvas"></canvas>
+              </div>
+              <h4 id="fetching-text" class="hidden">fetching subs...</h4>
+              <pre id="ffmpeg-log"></pre>          <div id="status-container">
+            <h3 id="torrent-name"></h3>
+            <p>
+              <span id="download-speed"></span> |
+              <span id="connected-peers"></span> Peers |
+                  <span id="percentage-completed"></span>% <span id="streaming-file-size"></span>
+                  </p>
+                  <button id="custom-fullscreen-btn" title="Fullscreen">&#x26F6;</button>
+                </div>        </div>
+
+      </div>
+    </div>
+
+    <script src="/jassub_dist/jassub.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

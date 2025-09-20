@@ -1,0 +1,9 @@
+
+
+When user selects file from Torrent list, you will first first, if it has a mkv extension .mkv if yes you will grab the full url and feed into ffmpeg to grab the subs.ass into downloads folder. once you are here you will use JASSUB to load and play the video
+
+
+during the sub title extraction after user selects mkv, you will read from ffmpeg.log and show this progress in new card.
+
+
+ffmpeg -i yourfile.mkv -map 0:s:0 -c copy subs.ass 2>&1 | tee ffmpeg.log

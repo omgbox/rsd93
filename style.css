@@ -1,0 +1,401 @@
+* {
+  box-sizing: border-box;
+}
+
+/* General Body & Layout */
+body {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #1e1e1e;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #fff;
+  overflow: hidden; /* Hide scrollbars */
+}
+
+.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Input Form Styles */
+#input-container, #main-modal {
+  grid-area: 1 / 1;
+  transition: opacity 0.4s ease-in-out;
+}
+
+#input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ensure container can shrink */
+  padding: 0 20px; /* Add some padding on mobile */
+  box-sizing: border-box;
+}
+
+.messageBox {
+  width: fit-content;
+  height: 60px; /* Increased height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2d2d2d;
+  padding: 0 25px; /* Increased padding */
+  border-radius: 15px; /* Increased border-radius */
+  border: 1px solid rgb(63, 63, 63);
+  transition: all 0.3s ease; /* Add transition for smooth resizing */
+}
+.messageBox:focus-within {
+  border: 1px solid rgb(110, 110, 110);
+}
+
+/* Fix for browser autofill background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 40px #2d2d2d inset !important; /* Increased size */
+    -webkit-text-fill-color: white !important;
+    caret-color: white !important;
+}
+
+
+
+#messageInput {
+  width: 500px; /* Increased width */
+  height: 100%;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding-left: 15px;
+  color: white;
+  font-size: 20px; /* Increased font size */
+  transition: all 0.3s ease;
+}
+#messageInput:focus ~ #sendButton svg path,
+#messageInput:valid ~ #sendButton svg path {
+  fill: #3c3c3c;
+  stroke: white;
+}
+
+#sendButton {
+  width: fit-content;
+  height: 100%;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+#sendButton svg {
+  height: 27px; /* Increased size */
+  transition: height 0.3s ease;
+}
+#sendButton svg path {
+  transition: all 0.3s;
+}
+#sendButton:hover svg path {
+  fill: #3c3c3c;
+  stroke: white;
+}
+
+/* Loader Styles */
+#loader {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #fff;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* Main Modal Styles */
+#main-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #2d2d2d;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 800px;
+  min-height: 400px;
+  max-height: 90vh;
+  border: 1px solid #444;
+  display: grid; /* Use grid for stacking */
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+}
+
+#file-list-container, #player-container {
+  grid-area: 1 / 1;
+  transition: opacity 0.4s ease-in-out;
+  /* Need to add overflow handling for file list */
+  overflow-y: auto;
+  display: flex; /* Use flex for internal layout */
+  flex-direction: column;
+  background-color: #2d2d2d; /* Ensure background for stacking */
+}
+
+#restart-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.3s, background-color 0.2s;
+}
+#restart-button:hover {
+    background-color: #555;
+    transform: rotate(180deg);
+}
+
+/* File List Container */
+#file-list-container {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+#file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#file-list li {
+  padding: 12px 15px;
+  border-bottom: 1px solid #444;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+#file-list li > span:first-child {
+  flex-grow: 1;
+  margin-right: 15px;
+}
+
+#file-list li:last-child {
+  border-bottom: none;
+}
+
+#file-list li:hover {
+  background-color: #3c3c3c;
+}
+
+#file-list li .actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.extract-btn {
+  background-color: #4a4a4a;
+  color: #fff;
+  border: 1px solid #666;
+  border-radius: 5px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.8em;
+  transition: background-color 0.2s;
+}
+
+.extract-btn:hover {
+  background-color: #5a5a5a;
+}
+
+#file-list li.subtitle-item {
+    color: #a0cff0;
+}
+
+#file-list li.subtitle-item.active {
+    background-color: #3a5a70;
+    font-weight: bold;
+}
+
+/* Checkmark icon for active subtitle */
+#file-list li.subtitle-item.active::after {
+  content: '✓';
+  font-size: 22px;
+  color: #86efac; /* light green */
+}
+
+.file-size {
+    color: #aaa;
+    font-size: 0.9em;
+    margin-right: 15px;
+}
+
+/* Video Player Styles (within modal) */
+#player-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  flex-grow: 1; /* Allows it to fill the modal space */
+}
+
+#video-container {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#video-player {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+}
+
+#jassub-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allows clicks to go through to the video player */
+  z-index: 1;
+}
+
+#ffmpeg-log {
+  background-color: #111;
+  color: #ccc;
+  font-family: monospace;
+  font-size: 0.8em;
+  padding: 10px;
+  margin: 0;
+  height: 150px;
+  overflow-y: scroll;
+  border-top: 1px solid #444;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+#fetching-text {
+  text-align: center;
+  margin: 10px 0 0 0;
+  font-weight: normal;
+  font-style: italic;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+#status-container {
+  background-color: #252525;
+  padding: 10px 20px;
+  text-align: center;
+  flex-shrink: 0;
+  border-top: 1px solid #444;
+}
+
+#status-container h3, #status-container p {
+    margin: 5px 0;
+}
+
+#torrent-name {
+    font-size: 1.1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#status-container p {
+    color: #ccc;
+    display: inline-block; /* Allow button to be next to it */
+}
+
+#custom-fullscreen-btn {
+    background: none;
+    border: 1px solid #ccc;
+    color: #ccc;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px 6px;
+    margin-left: 20px;
+    border-radius: 3px;
+    transition: all 0.2s;
+}
+
+#custom-fullscreen-btn:hover {
+    background: #555;
+    color: #fff;
+}
+
+/* Hide the native fullscreen button */
+#video-player::-webkit-media-controls-fullscreen-button {
+    display: none;
+}
+#video-player::-moz-fullscreen-button {
+    display: none;
+}
+#video-player:-ms-fullscreen-button {
+    display: none;
+}
+
+/* --- Responsive Styles for Mobile --- */
+@media (max-width: 768px) {
+  .messageBox {
+    width: 100%; /* Make the message box take the full width of its container */
+    height: 50px;
+    padding: 0 15px;
+    border-radius: 12px;
+  }
+
+  #messageInput {
+    width: 100%; /* Allow the input to shrink and grow */
+    font-size: 16px;
+    padding-left: 10px;
+  }
+
+  #sendButton svg {
+    height: 22px;
+  }
+}
