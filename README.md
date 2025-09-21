@@ -4,6 +4,7 @@ RSD9.3 is a web-based torrent client designed for seamless streaming, file manag
 
 ## Features
 
+-  **playlist auto Streaming:** Stream mkv + subtitles torrent mkv web browser.
 -   **Direct Streaming:** Stream torrent content directly in your web browser.
 -   **Flexible Input:** Supports adding torrents via magnet links and remote `.torrent` file URLs.
 -   **Subtitle Support:** Extract and stream subtitles (SRT to VTT, ASS) for an enhanced viewing experience.
